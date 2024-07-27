@@ -1,0 +1,11 @@
+const factory = require("../controllers/handlerFactory");
+const Purchase = require("../models/PurchaseModel");
+const ProductGroup = require("../models/ProductGroup");
+const catchError = require("../utils/catchError");
+const AppError = require("../utils/AppError");
+exports.getAllGroups = factory.getAll(ProductGroup);
+exports.createGroup = factory.createOne(ProductGroup);
+exports.updateGroup = factory.updateOne(ProductGroup);
+exports.deleteGroup = factory.deleteOne(ProductGroup);
+exports.getGroup = factory.getOne(ProductGroup);
+exports.getAllProductsForGroup = catchError(async (req, res, next) => {});
