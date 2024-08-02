@@ -45,7 +45,7 @@ const chartConfig = {
 
 export function PiechartCustom({ data }: { data: any }) {
   const totalVisitors = React.useMemo(() => {
-    return formatPrice(data.reduce((acc, curr) => acc + curr.customerPaidForAllQuantity, 0));
+    return formatPrice(data.reduce((acc: number, curr: any) => acc + Number(curr?.customerPaidForAllQuantity), 0));
   }, []);
   const newCharData = chartData.map((item, i) => ({
     fill: item.fill,

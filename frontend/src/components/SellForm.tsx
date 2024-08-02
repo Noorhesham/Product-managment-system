@@ -1,4 +1,4 @@
-import { ProductProps, SellProps } from "@/types";
+import { SellProps } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -84,7 +84,7 @@ const SellForm = ({ sell, btn }: { sell?: SellProps; btn?: JSX.Element }) => {
                       ) : (
                         <FormSelect label="Customer" name="customer" options={data2?.data.data.docs} />
                       )}
-                      {fields.map((input, index) => (
+                      {fields.map((_, index) => (
                         <div key={index}>
                           {
                             <div className=" flex  gap-2 w-full">
@@ -124,6 +124,7 @@ const SellForm = ({ sell, btn }: { sell?: SellProps; btn?: JSX.Element }) => {
                         </div>
                       ))}
                       <Button
+                        disabled={isPending}
                         className=" mt-2 w-fit ml-auto"
                         variant={"outline"}
                         onClick={(e) => {

@@ -68,7 +68,7 @@ const PurchaseForm = ({ purchase, btn }: { purchase?: PurchasesProps; btn?: JSX.
                 <form className="flex items-stretch gap-2" onSubmit={form.handleSubmit(onSubmit)}>
                   <div className="flex flex-1 flex-col">
                     <div className="flex pt-5 flex-col gap-4">
-                      {fields.map((input, index) => (
+                      {fields.map((_, index) => (
                         <div key={index}>
                           {
                             <div className=" flex  gap-2 w-full">
@@ -103,7 +103,7 @@ const PurchaseForm = ({ purchase, btn }: { purchase?: PurchasesProps; btn?: JSX.
                           </div>
                         </div>
                       ))}
-                      <Button
+                      <Button disabled={isPending}
                         className=" mt-2 w-fit ml-auto"
                         variant={"outline"}
                         onClick={(e) => {

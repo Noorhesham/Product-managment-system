@@ -3,7 +3,7 @@ import { useAuth } from "@/context/AuthProvider";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRef, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
@@ -31,7 +31,6 @@ const loginArray = [
   },
 ];
 const Login = () => {
-  const ref = useRef<HTMLDivElement>(null);
   useGSAP(() => {
     const tl = gsap.timeline();
     tl.from("#welcome", { yPercent: 100, opacity: 0, delay: 0.2 })
@@ -54,7 +53,7 @@ const Login = () => {
   const from = location.state?.from?.pathname || "/";
   if (auth?.accessToken) return <Navigate to={from} />;
   const navigate = useNavigate();
-  const [isPending, startTransition] = useTransition();
+  const [startTransition, ] = useTransition();
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -63,6 +62,7 @@ const Login = () => {
     },
   });
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
+    //@ts-ignore
     startTransition(() => {
       axios
         .post(
@@ -95,6 +95,7 @@ const Login = () => {
         </div>
         <div className="flex relative overflow-hidden flex-col  min-h-screen mx-auto justify-center  max-w-5xl  ">
           <div className=" py-3 px-6 min-h-64  rounded-2xl bg-gray-50 shadow-sm">
+            {/*//@ts-ignore*/}
             <CustomForm
               form={form}
               src="/login.png"

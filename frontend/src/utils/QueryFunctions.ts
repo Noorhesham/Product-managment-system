@@ -35,7 +35,7 @@ export const useGetEntity = (entityType: typeProps, page: number, limit = 10) =>
   return { data, isLoading, error };
 };
 
-export const useDeleteEntity = (entityType: typeProps, entityId?: string, page: number = 1) => {
+export const useDeleteEntity = (entityType: typeProps, _entityId?: string, page: number = 1) => {
   const queryClient = useQueryClient();
   const axios = useAxiosPrivate();
 

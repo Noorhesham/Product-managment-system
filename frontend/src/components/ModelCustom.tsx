@@ -4,19 +4,14 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 
 const ModelCustom = ({
-  value,
-  className,
   text,
-  onClick,
-  create,
+
   title,
   btn,
   content,
@@ -35,7 +30,7 @@ const ModelCustom = ({
   const [open, setOpen] = React.useState(isOpen);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger >{btn}</DialogTrigger>
+      <DialogTrigger>{btn}</DialogTrigger>
       <DialogContent className="sm:max-w-[525px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

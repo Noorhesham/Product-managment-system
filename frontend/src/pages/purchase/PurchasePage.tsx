@@ -4,7 +4,6 @@ import { columns } from "./columns";
 import Heading from "@/components/Heading";
 import { SkeletonTable } from "@/components/SkeletonTable";
 import { PageProvider, usePage } from "@/context/PageProvider";
-import SellForm from "@/components/SellForm";
 import PurchaseForm from "@/components/PurchaseForm";
 
 const Purchases = () => {

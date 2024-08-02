@@ -6,7 +6,7 @@ const useRefreshToken = () => {
   const refresh = async () => {
     const res = await axiosPrivate.get("/auth/refresh", {
       withCredentials: true, //send the refresh token cookie
-    });
+    });//@ts-ignore
     setAuth((prev: { accessToken: string, user: { name: string } }) => {
       console.log(JSON.stringify(prev));
       console.log(res);

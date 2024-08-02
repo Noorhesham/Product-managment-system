@@ -2,7 +2,7 @@ import { useFormContext } from "react-hook-form";
 import { InputProps } from "./CustomForm";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-const FormSelect = ({ name, label, placeholder, description, id, options, selected, defaultValue }: InputProps) => {
+const FormSelect = ({ name, label, placeholder, description, id, options, selected,  }: InputProps) => {
   const form = useFormContext();
   const selectedValue = form.watch(name);
 

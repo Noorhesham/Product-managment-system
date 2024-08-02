@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription,  CardHeader, CardTitle } from "@/components/ui/card";
 
 const CardCustom = ({ text, header, img, desc }: { text: string; header: string; img: string; desc?: string }) => {
   return (

@@ -6,11 +6,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import Actions from "@/components/Actions";
 import { format } from "date-fns";
 interface propsPurchase {
-  id: number;
+  id: any;
   name: string;
   totalPurchasePrice: number;
-  totalQuantity: number;
-  date: string;
+  quantity: number;
+  purchaseDate: Date;
+  items: any;
+  product: any;
 }
 export const columns: ColumnDef<propsPurchase>[] = [
   {

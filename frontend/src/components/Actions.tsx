@@ -27,7 +27,6 @@ const Actions = ({
   type,
   sheet,
   id,
-  item,
 }: {
   product?: ProductProps | GroupProps | CustomerProps | SellProps | PurchasesProps;
   type: typeProps;
@@ -80,7 +79,7 @@ const Actions = ({
                 {isPending ? <Spinner /> : `Delete ${product.name || ""}`}
               </Button>
             }
-            onClick={()=>deleteEntity(product?._id)}
+            onClick={() => deleteEntity(product?._id)}
             value={`Delete ${product.name || ""}`}
           />
         )}

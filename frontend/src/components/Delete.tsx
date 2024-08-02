@@ -16,7 +16,6 @@ import Spinner from "./Spinner";
 
 export function Delete({
   value,
-  className,
   onClick,
   trigger = true,
   disabled,

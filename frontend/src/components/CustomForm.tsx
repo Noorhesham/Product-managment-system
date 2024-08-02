@@ -1,7 +1,5 @@
 import React, { useRef } from "react";
-import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Button } from "./ui/button";
@@ -53,7 +51,6 @@ const CustomForm: React.FC<CustomFormProps> = ({
   text,
   schema,
   entityType,
-  defaultValues,
   id,
   form,
   localSubmit,
@@ -81,7 +78,7 @@ const CustomForm: React.FC<CustomFormProps> = ({
 
   const onSubmit = (data: z.infer<typeof schema>) => {
     const filteredData = Object.fromEntries(
-      Object.entries(data).filter(([key, value]) => value !== null && value !== "")
+      Object.entries(data).filter(([_, value]) => value !== null && value !== "")
     );
     uploadEntity(filteredData);
   };

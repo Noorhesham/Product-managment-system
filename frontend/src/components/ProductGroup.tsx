@@ -55,7 +55,7 @@ const ProductGroup = ({ group, btn }: { group?: GroupProps; btn?: ReactNode }) =
       description: "",
       id: "title-2",
     },
-    ...fields.map((field, i) => ({
+    ...fields.map((_, i) => ({
       name: `subgroups.${i}.name`,
       label: `Subgroup ${i + 1}`,
       id: `title-${i + 3}`,removeOp:()=>{
@@ -65,7 +65,7 @@ const ProductGroup = ({ group, btn }: { group?: GroupProps; btn?: ReactNode }) =
       }
     })),
     // Input for options
-    ...fields.map((field, i) => ({
+    ...fields.map((_, i) => ({
       name: `subgroups.${i}.options`,
       label: `Options for Subgroup ${i + 1}`,
       placeholder: "Enter options separated by commas...",
