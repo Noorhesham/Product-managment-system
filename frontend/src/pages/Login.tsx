@@ -53,7 +53,7 @@ const Login = () => {
   const from = location.state?.from?.pathname || "/";
   if (auth?.accessToken) return <Navigate to={from} />;
   const navigate = useNavigate();
-  const [startTransition, ] = useTransition();
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -98,7 +98,7 @@ const Login = () => {
             {/*//@ts-ignore*/}
             <CustomForm
               form={form}
-              src="/login.png"
+              src="/login.png" isPending={isPending}
               localSubmit={onSubmit}
               inputs={loginArray}
               serverError={serverError}

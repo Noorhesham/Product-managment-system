@@ -39,6 +39,7 @@ export interface CustomFormProps {
   id?: string;
   form?: any;
   titles?: string[];
+  isPending?: boolean;
   localSubmit?: any;
 }
 
@@ -54,10 +55,11 @@ const CustomForm: React.FC<CustomFormProps> = ({
   id,
   form,
   localSubmit,
+  isPending,
 }) => {
   const LocalRef = useRef<HTMLDivElement>(null);
   const { page } = usePage();
-  const { uploadEntity, isPending } = useUploadEntity(entityType, page, id);
+  const { uploadEntity, isPending: isUploading } = useUploadEntity(entityType, page, id);
 
   // const methods = useForm<z.infer<typeof schema>>({
   //   resolver: zodResolver(schema),
@@ -94,7 +96,9 @@ const CustomForm: React.FC<CustomFormProps> = ({
             )}
           </div>
           {serverError && <p className="text-red-500 mt-5 text-sm">{serverError}</p>}
-          <Button className="mt-5">{isPending ? <Spinner /> : text || "Submit"}</Button>
+          <Button disabled={isPending || isUploading} className="mt-5">
+            {isPending ? <Spinner /> : text || "Submit"}
+          </Button>
         </div>
         {!noimg && src && (
           <div className="relative">
