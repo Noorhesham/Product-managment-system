@@ -97,7 +97,7 @@ const CustomForm: React.FC<CustomFormProps> = ({
           </div>
           {serverError && <p className="text-red-500 mt-5 text-sm">{serverError}</p>}
           <Button disabled={isPending || isUploading} className="mt-5">
-            {isPending ? <Spinner /> : text || "Submit"}
+            {(isPending||isUploading) ? <Spinner /> : text || "Submit"}
           </Button>
         </div>
         {!noimg && src && (
