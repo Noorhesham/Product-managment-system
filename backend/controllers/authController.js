@@ -3,8 +3,8 @@ const User = require("../models/UserModel");
 const AppError = require("../utils/AppError");
 const catchError = require("../utils/catchError");
 const jwt = require("jsonwebtoken");
-const JWT_EXPIRES = "10s";
-const REFRESH_TOKEN_EXPIRES = "15s";
+const JWT_EXPIRES = "15min";
+const REFRESH_TOKEN_EXPIRES = "7d";
 const generateToken = (id) => {
   //generate a jwt that takes the id of user as payload , secret ,expirey date
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -24,7 +24,7 @@ const sendResponse = async (res, user, code) => {
   if (process.env.NODE_ENV === "production ") cookieOptions.secure = true;
   const uppdated = await User.findByIdAndUpdate(user._id, { refreshToken });
   console.log(uppdated, "uppdated");
-  res.cookie("jwt", refreshToken, cookieOptions);
+  res.cookie("jwt", refreshToken, user);
   user.password = undefined;
   res.status(code).json({ status: "success", token, data: { user } });
 };
@@ -64,14 +64,12 @@ exports.protect = catchError(async (req, res, next) => {
 exports.refresh = catchError(async (req, res, next) => {
   const refreshToken = req.cookies.jwt;
   if (!refreshToken) return next(new AppError("You are not logged in. Please log in to get access", 401));
-  console.log(refreshToken);
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN, async (err, decoded) => {
-    const existingToken = await User.findById(decoded.user._id);
-    console.log(existingToken);
-    if (!existingToken) return next(new AppError("Refresh token is not valid", 403));
     if (err) return next(new AppError("Refresh token is not valid", 403));
-    const token = generateToken(decoded.user._id);
-    return res.status(200).json({ status: "success", token });
+    const existingUser = await User.findById(decoded.id);
+    if (!existingUser) return next(new AppError("Refresh token is not valid", 403));
+    const token = generateToken(existingUser?._id);
+    return res.status(200).json({ status: "success", token, data: { user: existingUser } });
   });
 });
 

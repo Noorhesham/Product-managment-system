@@ -1,12 +1,22 @@
 const mongoose = require("mongoose");
 const Dept = require("./DeptModel");
 const AppError = require("../utils/AppError");
+const Product = require("./ProductModel");
 const { Schema } = mongoose;
 const itemSchema = new Schema({
   product: { type: Schema.Types.ObjectId, ref: "Product" },
   sellPrice: { type: Number, required: true },
   quantity: { type: Number, required: true, default: 1 },
-  customerPaidForAllQuantity: { type: Number, required: true },
+  customerPaidForAllQuantity: {
+    type: Number,
+    required: true,
+    validate: {
+      validator: function (value) {
+        return value <= this.quantity * this.sellPrice;
+      },
+      message: "Customer cannot pay more than sell price",
+    },
+  },
 });
 const sellSchema = new mongoose.Schema({
   items: {
@@ -47,6 +57,17 @@ const sellSchema = new mongoose.Schema({
     ref: "Dept",
   },
 });
+sellSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: "customer",
+    select: "name",
+  }).populate({
+    path: "items.product",
+    
+  })
+  next();
+});
+
 sellSchema.pre("save", async function (next) {
   this.totalSellPrice = this.items.reduce((total, item) => total + item.sellPrice * item.quantity, 0);
   this.customerPaidTotal = this.items.reduce((total, item) => total + item.customerPaidForAllQuantity, 0);

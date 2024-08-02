@@ -12,6 +12,8 @@ exports.createSelling = catchError(async (req, res, next) => {
     if (!product) return next(new AppError("Product not found"));
     if (product.stock < item.quantity) return next(new AppError("Insufficient stock", 400));
     product.stock = product.stock - item.quantity;
+    product.sold = product.sold + item.quantity;
+    product.soldPrice = product.soldPrice+item.customerPaidForAllQuantity;
     //to do notification
     await product.save();
   }
@@ -28,9 +30,9 @@ exports.updateSelling = factory.updateOne(Sell);
 exports.deleteSelling = factory.deleteOne(Sell);
 exports.getSellingsForProduct = catchError(async (req, res, next) => {
   const { id } = req.params;
-  const sellings = await Sell.find({ "items.product": id }).populate("items.product customer");
+  const sellings = await Sell.find({ "items.product": id })
   if (!sellings || sellings.length === 0) return next(new AppError("No sellings found for the given product ID", 404));
-
+  //sell=>items=>{product-sellprice}
   res.status(200).json({
     status: "success",
     results: sellings.length,

@@ -1,9 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.box {
+  max-width: 300px;
+}
+
+.box .header .part_one,
+.box .header .part_two,
+.box .content {
+  background-color: rgb(244, 240, 240);
+}
+
+.box .header {
+  display: flex;
+}
+
+.box .header .part_one {
+  width: 200px;
+  height: 30px;
+}
+
+.box .header .part_two {
+  width: 100px;
+  height: 30px;
+  position: relative;
+}
+
+.box .header .part_two:before {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  height: 30px;
+  width: 100%;
+  border-bottom-left-radius: 28px;
+  background: white;
+}
+
+.box .content {
+  height: 200px;
+  border-radius: 0px 10px 10px 10px;
+  padding: 10px;
+}
+
+.box .header .part_one {
+  width: 200px;
+  border-radius: 10px 10px 0px 0px;
 }

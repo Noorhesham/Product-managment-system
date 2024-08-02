@@ -25,6 +25,7 @@ exports.createPurchase = catchError(async (req, res, next) => {
     if (!product) return next(new AppError("Product not found"));
     console.log(product);
     product.stock = product.stock + item.quantity;
+    product.purchasePrice = product.purchasePrice + item.purchasePrice;
     await product.save();
   }
   res.status(200).json({

@@ -1,13 +1,15 @@
 import React, { useState, createContext, useContext } from "react";
 interface AuthContextType {
-  auth: { accessToken: string } | null;
-  setAuth: React.Dispatch<React.SetStateAction<{ accessToken: string } | null>>;
+  auth: { accessToken: string; user: { name: string } | null } | null;
+  setAuth: React.Dispatch<React.SetStateAction<{ accessToken: string; user: { name: string } } | null>>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [auth, setAuth] = useState<{ accessToken: string } | null>({ accessToken: "" });
-  console.log(auth);
+  const [auth, setAuth] = useState<{ accessToken: string; user: { name: string } } | null>({
+    accessToken: "",
+    user: null,
+  });
   return <AuthContext.Provider value={{ auth, setAuth }}>{children}</AuthContext.Provider>;
 };
 

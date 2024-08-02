@@ -21,6 +21,7 @@ exports.updateOne = (Model) =>
       new: true,
       runValidators: true,
     });
+    console.log(doc);
     if (!doc) {
       return next(new AppError("No document found with that ID", 404));
     }
@@ -65,10 +66,12 @@ exports.getAll = (Model) =>
     console.log(req.query);
     const features = new APIFeatures(Model.find(filter), req.query).filter().sort().limitFields().paginate();
     const docs = await features.query;
+    const totalCount = await Model.countDocuments(filter);
     //SEND RESPONSE
     res.status(200).json({
       status: "success",
       results: docs.length,
+      totalPages: Math.ceil(totalCount / (req.query.limit || 10)),
       data: {
         docs,
       },
