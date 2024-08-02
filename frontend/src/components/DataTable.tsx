@@ -59,7 +59,9 @@ export function DataTable<TData, TValue>({ columns, data, name, filter = false }
   };
   return (
     <div className="rounded-md  py-2.5 px-5">
-      {chosen.length > 0 && <PopUp isPending={isPending} count={chosen.length} handleDelete={() => handleDeleteAll(chosen)} />}
+      {chosen.length > 0 && (
+        <PopUp isPending={isPending} count={chosen.length} handleDelete={() => handleDeleteAll(chosen)} />
+      )}
       {!filter && (
         <div className="flex  justify-between  relative items-center py-4">
           <div className=" flex relative  w-[30%]  items-center gap-2">

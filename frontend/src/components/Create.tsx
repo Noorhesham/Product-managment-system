@@ -33,8 +33,8 @@ const Create = ({
     resolver: zodResolver(productSchema),
     defaultValues: {
       name: product?.name || "",
-      group: product?.group._id || "",
-      subGroups: product?.subGroups || [],
+      group: product?.group?._id,
+      subGroups: product?.subGroups ,
       //@ts-ignore
       stock: product?.stock ? String(product.stock) : "0",
     },

@@ -20,13 +20,7 @@ const ProductGroups = () => {
           <ProductGroup />
         </div>
       </div>
-      <div>
-        {isLoading ? (
-          <SkeletonTable />
-        ) : (
-          <DataTable name="product groups" columns={columns} data={data?.data?.data?.docs} />
-        )}
-      </div>
+      <div>{isLoading ? <SkeletonTable /> : <DataTable  name="groups" columns={columns} data={data?.data?.data?.docs} />}</div>
     </div>
   );
 };

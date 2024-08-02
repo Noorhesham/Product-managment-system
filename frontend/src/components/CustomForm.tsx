@@ -23,7 +23,8 @@ export interface InputProps {
   options?: any[];
   select?: boolean;
   removeOp?: any;
-  selected?: any;defaultValue?:any
+  selected?: any;
+  defaultValue?: any;
 }
 
 export interface CustomFormProps {
@@ -79,8 +80,10 @@ const CustomForm: React.FC<CustomFormProps> = ({
   );
 
   const onSubmit = (data: z.infer<typeof schema>) => {
-    console.log(data);
-    uploadEntity(data);
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(([key, value]) => value !== null && value !== "")
+    );
+    uploadEntity(filteredData);
   };
   const localForm = form;
   return (

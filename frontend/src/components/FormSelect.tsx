@@ -13,16 +13,14 @@ const FormSelect = ({ name, label, placeholder, description, id, options, select
       control={form.control}
       name={name}
       render={({ field }) => {
-        console.log(options?.find((p) => p._id === form.getValues(name)?._id)?.name);
+        const selected = options?.find((p) => p._id === form.getValues(name)?._id || p._id === selectedValue);
         return (
           <FormItem id={id || ""}>
             <FormLabel>{label}</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
                 <SelectTrigger>
-                  <SelectValue>
-                    {options?.find((p) => p._id === form.getValues(name)?._id || p._id === selectedValue)?.name}
-                  </SelectValue>
+                  <SelectValue>{selected ? selected.name : placeholder}</SelectValue>
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
