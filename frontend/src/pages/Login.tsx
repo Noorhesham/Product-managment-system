@@ -98,7 +98,8 @@ const Login = () => {
             {/*//@ts-ignore*/}
             <CustomForm
               form={form}
-              src="/login.png" isPending={isPending}
+              src="/login.png"
+              isPending={isPending}
               localSubmit={onSubmit}
               inputs={loginArray}
               serverError={serverError}
@@ -112,3 +113,17 @@ const Login = () => {
 };
 
 export default Login;
+//alarm when selling a product with a price less than the purchase
+//customer problem
+//restrice to admin
+// min price t osell
+//alarm on 10 pieces
+//customer pay more => nor restrict
+//stores
+//refresh token
+// supplier
+//sheet details on the purchase and sells
+//total debts price on click each debt
+//edit form in sells
+// if the customer paid more than the reset price i want t osee the oldest debt he has and decrease its price
+//then after that if it is 0 i want to go to the next dept until the customer paid the reset price
