@@ -15,13 +15,13 @@ const generateToken = (id) => {
 const cookieOptions = {
   expires: new Date(Date.now() + process.env.COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000,
   httpOnly: true,
-  sameSite: 'None', // Consider using 'lax' for development
+  sameSite: 'none', // Consider using 'lax' for development
   secure: false,
 };
 const sendResponse = async (res, user, code) => {
   const token = generateToken(user._id);
   const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN, { expiresIn: REFRESH_TOKEN_EXPIRES });
-  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+  // if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   const uppdated = await User.findByIdAndUpdate(user._id, { refreshToken });
   console.log(uppdated, "uppdated");
   res.cookie("jwt", refreshToken, user);
