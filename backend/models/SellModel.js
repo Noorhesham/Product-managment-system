@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Dept = require("./DeptModel");
 const AppError = require("../utils/AppError");
 const Product = require("./ProductModel");
+const NotificationModel = require("./NotificationModel");
 const { Schema } = mongoose;
 const itemSchema = new Schema({
   product: { type: Schema.Types.ObjectId, ref: "Product" },
@@ -10,12 +11,6 @@ const itemSchema = new Schema({
   customerPaidForAllQuantity: {
     type: Number,
     required: true,
-    validate: {
-      validator: function (value) {
-        return value <= this.quantity * this.sellPrice;
-      },
-      message: "Customer cannot pay more than sell price",
-    },
   },
 });
 const sellSchema = new mongoose.Schema({
@@ -63,31 +58,59 @@ sellSchema.pre(/^find/, function (next) {
     select: "name",
   }).populate({
     path: "items.product",
-    
-  })
+  });
   next();
 });
 
 sellSchema.pre("save", async function (next) {
+  if (!this.isNew) return next(); // Execute only on create, not update
+
   this.totalSellPrice = this.items.reduce((total, item) => total + item.sellPrice * item.quantity, 0);
   this.customerPaidTotal = this.items.reduce((total, item) => total + item.customerPaidForAllQuantity, 0);
-  if (this.totalSellPrice - this.customerPaidTotal === 0) this.isInDept = false;
-  else {
+
+  if (this.totalSellPrice <= this.customerPaidTotal) {
+    this.isInDept = false;
+  } else {
     this.isInDept = true;
     const dept = await Dept.findById(this.dept);
     if (dept) {
       dept.deptPrice = this.totalSellPrice - this.customerPaidTotal;
-      dept.save();
-      next();
+      await dept.save();
     } else {
-      const dept = await Dept.create({
+      const newDept = await Dept.create({
         deptPrice: this.totalSellPrice - this.customerPaidTotal,
         customer: this.customer,
       });
-      if (!dept) return next(new AppError("Dept not created", 500));
-      next();
+      this.dept = newDept._id;
+      if (!newDept) return next(new AppError("Dept not created", 500));
     }
   }
+
+  // Check for low stock and underpriced sales
+  for (const item of this.items) {
+    const product = await mongoose.model("Product").findById(item.product);
+    product.stock = product.stock - item.quantity;
+    await product.save();
+    // Notification for low stock
+    if (product.stock <= 10) {
+      await NotificationModel.create({
+        type: "Low Stock",
+        message: `Product ${product.name} has low stock: ${product.stock} units left.`,
+        product: product._id,
+      });
+    }
+
+    // Notification for selling below purchase price
+    if (item.sellPrice < product.purchasePrice) {
+      await NotificationModel.create({
+        type: "Underpriced Sale",
+        message: `Product ${product.name} was sold below purchase price.`,
+        product: product._id,
+        sell: this._id,
+      });
+    }
+  }
+
   next();
 });
 module.exports = mongoose.model("Sell", sellSchema);

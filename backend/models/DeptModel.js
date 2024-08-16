@@ -15,4 +15,9 @@ const DeptSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Dept", DeptSchema)
+DeptSchema.pre(/^find/, function (next) {
+  this.populate("customer");
+  next();
+});
+
+module.exports = mongoose.model("Dept", DeptSchema);

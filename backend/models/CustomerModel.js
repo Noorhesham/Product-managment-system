@@ -8,13 +8,12 @@ const customerSchema = new mongoose.Schema(
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+
 customerSchema.virtual("depts", {
   ref: "Dept",
   localField: "_id",
   foreignField: "customer",
 });
-customerSchema.pre(/^find/, function (next) {
-  this.populate("depts");
-  next();
-});
+
+// Removed automatic population to avoid infinite loops
 module.exports = mongoose.model("Customer", customerSchema);

@@ -7,13 +7,11 @@ const productGroupSchema = new mongoose.Schema({
   },
   subgroups: [
     {
-      type: { name: String, options: [String] }, //[{name:size,options:[lg,sm,md]} ]
+      name: String,
+      options: [String], // Options for subgroups like ["S", "M", "L"]
     },
   ],
 });
 
-module.exports = mongoose.model("ProductGroup", productGroupSchema);
-/*
-products if group then show the variants 
-in upload time  i upload the name and the variants with the options then i take the v
-*/
+const ProductGroup = mongoose.model("ProductGroup", productGroupSchema);
+module.exports = ProductGroup;

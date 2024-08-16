@@ -28,8 +28,9 @@ app.use("/api/purchases", require("./routes/purchasesRouter"));
 app.use("/api/sells", require("./routes/sellRouter"));
 app.use("/api/groups", require("./routes/productGroupRouter"));
 app.use("/api/customers", require("./routes/customerRouter"));
-app.use("/api/depts", require("./routes/deptsRouter"));
+app.use("/api/debts", require("./routes/deptsRouter"));
 app.use("/api/auth", require("./routes/authRouter"));
+app.use('/api/notifications', require('./routes/notificationRouter'))
 app.all("*", (err, req, res, next) => {
   next(new AppError(`cant find ${req.originalUrl} on this server`, 404));
 });
