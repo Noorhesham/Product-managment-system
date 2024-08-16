@@ -15,9 +15,9 @@ const generateToken = (id) => {
 const cookieOptions = {
   expires: new Date(Date.now() + process.env.COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000,
   httpOnly: false,
-  sameSite: 'None',
+  sameSite: "None",
   // Use 'None' for cross-site cookies, 'Lax' for same-site (or development)
-  secure: false,
+  secure: process.env.NODE_ENV === "production" ? true : false, // 'true' for production (HTTPS)
 };
 const sendResponse = async (res, user, code) => {
   const token = generateToken(user._id);
@@ -25,7 +25,8 @@ const sendResponse = async (res, user, code) => {
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   const uppdated = await User.findByIdAndUpdate(user._id, { refreshToken });
   console.log(uppdated, "uppdated");
-  res.cookie("jwt", refreshToken, user, cookieOptions);
+  res.cookie("jwt", refreshToken, cookieOptions);
+
   user.password = undefined;
   res.status(code).json({ status: "success", token, data: { user } });
 };
