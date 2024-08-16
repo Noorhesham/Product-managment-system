@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(ExpressMongoSanitize());
 app.use(xss());
-app.use(cors({ credentials: true, origin: true }));
+app.use(cors({ credentials: true, origin: 'https://gentle-parfait-8f331e.netlify.app/' }));
 app.use("/api/products", productsRouter);
 app.use("/api/purchases", require("./routes/purchasesRouter"));
 app.use("/api/sells", require("./routes/sellRouter"));
