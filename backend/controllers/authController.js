@@ -21,7 +21,7 @@ const cookieOptions = {
 const sendResponse = async (res, user, code) => {
   const token = generateToken(user._id);
   const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_TOKEN, { expiresIn: REFRESH_TOKEN_EXPIRES });
-  if (process.env.NODE_ENV === "production ") cookieOptions.secure = true;
+  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
   const uppdated = await User.findByIdAndUpdate(user._id, { refreshToken });
   console.log(uppdated, "uppdated");
   res.cookie("jwt", refreshToken, user);
