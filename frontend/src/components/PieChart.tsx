@@ -45,14 +45,23 @@ const chartConfig = {
 
 export function PiechartCustom({ data }: { data: any }) {
   const totalVisitors = React.useMemo(() => {
-    return formatPrice(data.reduce((acc: number, curr: any) => acc + Number(curr?.customerPaidForAllQuantity), 0));
+    return formatPrice(
+      data.reduce(
+        (acc: number, curr: any) => acc + Number(curr?.customerPaidForAllQuantity || curr?.totalPurchasePrice),
+        0
+      )
+    );
   }, []);
   const newCharData = chartData.map((item, i) => ({
     fill: item.fill,
-    visitors: data?.[i]?.customerPaidForAllQuantity,
-    browser: data?.[i]?.sellDate ? format(data?.[i]?.sellDate, "yyyy-MM-dd") : "",
+    visitors: data?.[i]?.customerPaidForAllQuantity || data?.[i]?.totalPurchasePrice,
+    browser: data?.[i]?.sellDate
+      ? format(data?.[i]?.sellDate, "yyyy-MM-dd")
+      : data?.[i]?.purchaseDate
+      ? format(data?.[i]?.purchaseDate, "yyyy-MM-dd")
+      : "",
   }));
-  console.log(newCharData, chartData, data);
+  console.log(data, data?.[0]?.totalPurchasePrice);
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">

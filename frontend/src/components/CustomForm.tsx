@@ -23,6 +23,7 @@ export interface InputProps {
   removeOp?: any;
   selected?: any;
   defaultValue?: any;
+  customer?: boolean;
 }
 
 export interface CustomFormProps {
@@ -82,6 +83,7 @@ const CustomForm: React.FC<CustomFormProps> = ({
     const filteredData = Object.fromEntries(
       Object.entries(data).filter(([_, value]) => value !== null && value !== "")
     );
+    console.log(filteredData)
     uploadEntity(filteredData);
   };
   const localForm = form;
@@ -97,7 +99,7 @@ const CustomForm: React.FC<CustomFormProps> = ({
           </div>
           {serverError && <p className="text-red-500 mt-5 text-sm">{serverError}</p>}
           <Button disabled={isPending || isUploading} className="mt-5">
-            {(isPending||isUploading) ? <Spinner /> : text || "Submit"}
+            {isPending || isUploading ? <Spinner /> : text || "Submit"}
           </Button>
         </div>
         {!noimg && src && (

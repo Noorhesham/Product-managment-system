@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 import Spinner from "./Spinner";
 import { usePage } from "@/context/PageProvider";
 import Create from "./Create";
-import { CustomerProps, GroupProps, ProductProps, PurchasesProps, SellProps, typeProps } from "@/types";
+import { CustomerProps, DebtsProps, GroupProps, ProductProps, PurchasesProps, SellProps, typeProps } from "@/types";
 import ProductGroup from "./ProductGroup";
 import EditButton from "./EditButton";
 import CustomerForm from "./CustomerForm";
@@ -28,7 +28,7 @@ const Actions = ({
   sheet,
   id,
 }: {
-  product?: ProductProps | GroupProps | CustomerProps | SellProps | PurchasesProps;
+  product?: ProductProps | GroupProps | CustomerProps | SellProps | PurchasesProps|DebtsProps;
   type: typeProps;
   sheet?: boolean;
   id?: string;
@@ -55,7 +55,7 @@ const Actions = ({
           ) : type === "sells" ? (
             <SellForm btn={<EditButton text={`Edit Sell `} />} sell={product as SellProps} />
           ) : type === "purchases" ? (
-            <PurchaseForm />
+            <PurchaseForm btn={<EditButton text={`Edit Purchase `} />} purchase={product as PurchasesProps} />
           ) : (
             <Create
               btn={<EditButton text={`Edit ${product.name} `} />}

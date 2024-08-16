@@ -32,6 +32,8 @@ const ProductSelect = ({ name, label, description, id, selected, defaultValue }:
       form.setValue(name, defaultValue);
     }
   }, [defaultValue, form, name]);
+  const selectedProduct = options?.find((p) => p._id === form.getValues(name)?._id || p._id === selectedValue);
+  console.log(selectedProduct)
   return (
     <FormField
       control={form.control}
@@ -59,12 +61,16 @@ const ProductSelect = ({ name, label, description, id, selected, defaultValue }:
                 </div>
               </SelectContent>
             </Select>
-            <div>
-              <label htmlFor="total">Stock</label>
-              <Input
-                disabled
-                value={options?.find((p) => p._id === form.getValues(name)?._id || p._id === selectedValue)?.stock}
-              />
+            <div className="flex items-center gap-2">
+              <div>
+                <label htmlFor="total">Stock</label>
+                <Input disabled value={selectedProduct?.stock} />
+              </div>
+
+              <div>
+                <label htmlFor="total">purchase Price</label>
+                <Input disabled value={selectedProduct?.lastPurchasePrice} />
+              </div>
             </div>
             <FormDescription>{description}</FormDescription>
             <FormMessage />

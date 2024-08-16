@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import Actions from "@/components/Actions";
 import { GroupProps } from "@/types";
+import { Link } from "react-router-dom";
 
 export const columns: ColumnDef<GroupProps>[] = [
   {
@@ -34,11 +35,16 @@ export const columns: ColumnDef<GroupProps>[] = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      return (
+        <Link className=" cursor-pointer hover:underline duration-150" to={`/customer/${row.original._id}`}>
+          {" "}
+          {row.original.name}{" "}
+        </Link>
+      );
+    },
   },
-  {
-    accessorKey: "name",
-    header: "Name",
-  },
+
   {
     accessorKey: "address",
     header: "Address",

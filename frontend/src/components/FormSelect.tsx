@@ -2,25 +2,34 @@ import { useFormContext } from "react-hook-form";
 import { InputProps } from "./CustomForm";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-const FormSelect = ({ name, label, placeholder, description, id, options, selected,  }: InputProps) => {
+
+const FormSelect = ({ name, label, placeholder, description, id, options, selected }: InputProps) => {
   const form = useFormContext();
-  const selectedValue = form.watch(name);
+  const selectedValue = name&&form?.watch(name);
 
   // Filter out the selected value from the options
-  const filteredOptions = options?.filter((p) => !selected?.includes(p._id));
+  const filteredOptions = name === "customer" ? options : options?.filter((p) => !selected?.includes(p._id));
+  
   return (
     <FormField
-      control={form.control}
+      control={form?.control}
       name={name}
       render={({ field }) => {
-        const selected = options?.find((p) => p._id === form.getValues(name)?._id || p._id === selectedValue);
+        const selectedOption = options?.find((p) => p._id === field.value);
         return (
           <FormItem id={id || ""}>
             <FormLabel>{label}</FormLabel>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <Select
+              onValueChange={(value) => {
+                field.onChange(value); // Update the form state with the selected value
+              }}
+              value={field.value} // Bind the select value to the form state
+            >
               <FormControl>
                 <SelectTrigger>
-                  <SelectValue>{selected ? selected.name : placeholder}</SelectValue>
+                  <SelectValue>
+                    {selectedOption ? selectedOption.name : placeholder}
+                  </SelectValue>
                 </SelectTrigger>
               </FormControl>
               <SelectContent>

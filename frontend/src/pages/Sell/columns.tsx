@@ -60,13 +60,13 @@ export const columns: ColumnDef<SellProps>[] = [
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Customer Paid
+          Customer must pay
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      return <p>{formatPrice(Number(row.original.totalSellPrice))}</p>;
+      return <p className="  text-left">{formatPrice(Number(row.original.totalSellPrice))}</p>;
     },
   },
   {
@@ -87,7 +87,8 @@ export const columns: ColumnDef<SellProps>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      return <Actions type="sells" product={row.original} />;
+      return <Actions sheet id={row.original._id}  item={row.original} type="sells" product={row.original} />;
     },
-  },
+  },      
+
 ];

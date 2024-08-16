@@ -1,20 +1,14 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import { formatPrice } from "@/utils/helpers";
 import { Checkbox } from "@/components/ui/checkbox";
 import Actions from "@/components/Actions";
+import { DebtsProps } from "@/types";
+import { formatPrice } from "@/utils/helpers";
 import { format } from "date-fns";
-interface propsPurchase {
-  id: any;
-  name: string;
-  totalPurchasePrice: number;
-  quantity: number;
-  purchaseDate: Date;
-  items: any;
-  product: any;
-}
-export const columns: ColumnDef<propsPurchase>[] = [
+
+export const columns: ColumnDef<DebtsProps>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -33,7 +27,7 @@ export const columns: ColumnDef<propsPurchase>[] = [
     ),
   },
   {
-    accessorKey: "name",
+    accessorKey: "customer.name",
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
@@ -43,53 +37,45 @@ export const columns: ColumnDef<propsPurchase>[] = [
       );
     },
   },
-  {
-    accessorKey: "totalPurchasePrice",
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Price Per Unit
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      return <p>{formatPrice(Number(row.original.totalPurchasePrice))}</p>;
-    },
-  },
-  {
-    accessorKey: "quantity",
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Quantity
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      return <div>{row.original.quantity}</div>;
-    },
-  },
 
   {
-    accessorKey: "purchaseDate",
+    accessorKey: "customer.phoneNumber",
+    header: "Phone Number",
+  },
+  {
+    accessorKey: "deptDate",
     header: ({ column }) => {
       return (
         <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          sold Price
+          Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      return <p>{format(row.original.purchaseDate, "yyyy-MM-dd")}</p>;
+      return <div className=" text-sm text-left">{format(new Date(row.original.deptDate), "yyyy/MM/dd")}</div>;
     },
   },
+  {
+    accessorKey: "deptPrice",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Debt Price
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return <p>{formatPrice(Number(row.original.deptPrice))}</p>;
+    },
+  },
+  //add a sheet
   {
     id: "actions",
     cell: ({ row }) => {
-      return <Actions id={row.original.id} item={row.original.product} sheet={true} type="purchases" />;
+      console.log(row.original);
+      return <Actions type="debts" product={row.original} />;
     },
   },
 ];

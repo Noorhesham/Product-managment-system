@@ -18,9 +18,9 @@ const ProductDetails = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetProduct(id || "", page);
   const [tab, setTab] = useState("sells");
-
+  console.log(data?.data.data)
   useEffect(() => {
-    setTotalPages(data?.data.data.pagination.totalPagesSells);
+    setTotalPages(data?.data.data.pagination.totalPagesSells||data?.data.data.pagination.totalPagesPurchases);
   }, [isLoading]);
   if (isLoading)
     return (
@@ -59,7 +59,7 @@ const ProductDetails = () => {
     <Section header={data?.data.data.product.name + " Details"}>
       <div className=" grid gap-3 grid-cols-7 w-full">
         <CardCustom img="/sell.png" text="Product Total Sells" header={formatPrice(product.soldPrice)} />
-        <CardCustom img="/sell.png" text="Product Total Sells" header={formatPrice(product.purchasePrice)} />
+        <CardCustom img="/sell.png" text="Product Total Purchases" header={formatPrice(product.purchasePrice)} />
         <div className=" col-span-3">
           <PiechartCustom data={pieChartData} />
         </div>

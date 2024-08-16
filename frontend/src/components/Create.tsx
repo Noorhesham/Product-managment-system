@@ -12,9 +12,8 @@ const productSchema = z.object({
   group: z.string().optional(),
   subGroups: z.array(z.any().optional()).optional(),
   stock: z
-    .string()
-    .min(1, { message: "Stock must be at least 1" })
-    .transform((value) => parseInt(value)),
+    .union([z.string().min(1, { message: "Stock must be at least 1" }), z.number()])
+    .transform((value) => Number(value)),
 });
 const Create = ({
   name,
@@ -34,7 +33,7 @@ const Create = ({
     defaultValues: {
       name: product?.name || "",
       group: product?.group?._id,
-      subGroups: product?.subGroups ,
+      subGroups: product?.subGroups,
       //@ts-ignore
       stock: product?.stock ? String(product.stock) : "0",
     },

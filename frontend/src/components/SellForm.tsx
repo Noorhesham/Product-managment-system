@@ -16,19 +16,19 @@ import ProductSelect from "./ProductSelect";
 const sellSchema = z.object({
   items: z.array(
     z.object({
-      product: z.string().min(1, "Product is required"),
+      product: z
+        .union([z.string().min(1, "Product is required"), z.any()])
+        .transform((value) => (typeof value === "string" ? value : value._id)),
       quantity: z
-        .string()
-        .min(1, "Quantity is required")
-        .transform((value) => parseInt(value)),
+        .union([z.string().min(1, "Quantity is required"), z.number()])
+        .transform((value) => (typeof value === "string" ? Number(value) : value)),
       sellPrice: z
-        .string()
-        .min(1, "Sell price is required")
-        .transform((value) => parseFloat(value)),
+        .union([z.string().min(1, "sellPrice is required"), z.number()])
+        .transform((value) => (typeof value === "string" ? Number(value) : value)),
       customerPaidForAllQuantity: z
-        .string()
-        .min(1, "Customer paid is required")
-        .transform((value) => parseFloat(value)),
+        .union([z.string().min(1, "customerPaidForAllQuantity is required"), z.number()])
+
+        .transform((value) => (typeof value === "string" ? Number(value) : value)),
     })
   ),
   customer: z.string().min(1, "Customer is required"),
@@ -50,7 +50,7 @@ const SellForm = ({ sell, btn }: { sell?: SellProps; btn?: JSX.Element }) => {
   });
 
   const { data: data2, isLoading: isLoading2 } = useGetEntity("customers", 1, 20);
-  const { uploadEntity, isPending } = useUploadEntity("sells", 1);
+  const { uploadEntity, isPending } = useUploadEntity("sells", 1, sell?._id || "");
   const { append, fields, remove } = useFieldArray({
     control: form.control,
     name: "items",
@@ -60,9 +60,8 @@ const SellForm = ({ sell, btn }: { sell?: SellProps; btn?: JSX.Element }) => {
     .map((item) => item.product)
     .filter((i) => i !== "");
 
-  console.log(sell);
   const onSubmit = (data: z.infer<typeof sellSchema>) => {
-    console.log(data);
+    console.log(data, sell);
     uploadEntity(data);
   };
   form.watch("items");
@@ -82,7 +81,7 @@ const SellForm = ({ sell, btn }: { sell?: SellProps; btn?: JSX.Element }) => {
                       {isLoading2 ? (
                         <Spinner />
                       ) : (
-                        <FormSelect label="Customer" name="customer" options={data2?.data.data.docs} />
+                        <FormSelect customer label="Customer" name="customer" options={data2?.data.data.docs} />
                       )}
                       {fields.map((_, index) => (
                         <div key={index}>
@@ -115,6 +114,7 @@ const SellForm = ({ sell, btn }: { sell?: SellProps; btn?: JSX.Element }) => {
                                 }
                               />
                             </div>
+
                             <FormInput
                               type="number"
                               label="Customer paid"

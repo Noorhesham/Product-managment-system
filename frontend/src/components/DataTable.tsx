@@ -22,14 +22,22 @@ import FilterGroup from "./FilterGroup";
 import PopUp from "./PopUp";
 import { useDeleteEntity } from "@/utils/QueryFunctions";
 import { typeProps } from "@/types";
+import FormSelect from "./FormSelect";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   filter?: boolean;
   name: typeProps;
+  customers?: any[];
 }
 
-export function DataTable<TData, TValue>({ columns, data, name, filter = false }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  name,
+  filter = false,
+  customers,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -57,6 +65,7 @@ export function DataTable<TData, TValue>({ columns, data, name, filter = false }
     data.map((item: any) => deleteEntity(item));
     table.resetRowSelection();
   };
+
   return (
     <div className="rounded-md  py-2.5 px-5">
       {chosen.length > 0 && (
@@ -80,7 +89,7 @@ export function DataTable<TData, TValue>({ columns, data, name, filter = false }
               </button>
             )}
           </div>
-          <FilterGroup table={table} />
+          <FilterGroup customers={customers} table={table} />
         </div>
       )}
       <Table className=" bg-white">

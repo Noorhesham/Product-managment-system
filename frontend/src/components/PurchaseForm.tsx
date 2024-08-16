@@ -15,15 +15,15 @@ import ProductSelect from "./ProductSelect";
 const purchaseSchema = z.object({
   items: z.array(
     z.object({
-      product: z.string().min(1, "Product is required"),
+      product: z
+        .union([z.string().min(1, "Product is required"), z.any()])
+        .transform((value) => (typeof value === "string" ? value : value._id)),
       quantity: z
-        .string()
-        .min(1, "Quantity is required")
-        .transform((value) => parseInt(value)),
+        .union([z.string().min(1, "Quantity is required"), z.number()])
+        .transform((value) => Number(value)),
       purchasePrice: z
-        .string()
-        .min(1, "Purchase price is required")
-        .transform((value) => parseFloat(value)),
+        .union([z.string().min(1, "Quantity is required"), z.number()])
+        .transform((value) => Number(value)),
     })
   ),
 });
@@ -41,8 +41,9 @@ const PurchaseForm = ({ purchase, btn }: { purchase?: PurchasesProps; btn?: JSX.
       ],
     },
   });
+  console.log(form.formState.errors, purchase?.items);
   const { page } = usePage();
-  const { uploadEntity, isPending } = useUploadEntity("purchases", page);
+  const { uploadEntity, isPending } = useUploadEntity("purchases", page, purchase?._id);
   const { append, fields, remove } = useFieldArray({
     control: form.control,
     name: "items",
@@ -103,7 +104,8 @@ const PurchaseForm = ({ purchase, btn }: { purchase?: PurchasesProps; btn?: JSX.
                           </div>
                         </div>
                       ))}
-                      <Button disabled={isPending}
+                      <Button
+                        disabled={isPending}
                         className=" mt-2 w-fit ml-auto"
                         variant={"outline"}
                         onClick={(e) => {

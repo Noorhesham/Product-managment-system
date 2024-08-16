@@ -22,11 +22,20 @@ export const useGetEntityById = (entityType: typeProps, id: string) => {
   return { data, isLoading, error };
 };
 
-export const useGetEntity = (entityType: typeProps, page: number, limit = 10) => {
+export const useGetEntity = (
+  entityType: typeProps,
+  page: number,
+  limit = 10,
+  filter?: string,
+  filterValue?: string
+) => {
   const axios = useAxiosPrivate();
 
   const { data, isLoading, error } = useQuery({
-    queryFn: async () => await axios.get(`/${entityType}?page=${page}&limit=${limit}`),
+    queryFn: async () =>
+      filter && filterValue
+        ? await axios.get(`/${entityType}?${filter}=${filterValue}&page=${page}&limit=${limit}`)
+        : await axios.get(`/${entityType}?page=${page}&limit=${limit}`),
     queryKey: [`${entityType}${page}`],
   });
 
@@ -43,6 +52,8 @@ export const useDeleteEntity = (entityType: typeProps, _entityId?: string, page:
     mutationFn: async (entityId?: string) => await axios.delete(`/${entityType}/${entityId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`${entityType}${page || 1}`] });
+      queryClient.invalidateQueries({ queryKey: [`counts`] });
+
       toast.success(`${entityType} deleted `);
     },
   });
@@ -62,6 +73,7 @@ export const useUploadEntity = (entityType: string, page: number = 1, id: string
       : async (data: any) => (await axios.post(`/${entityType}`, data)).data,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`${entityType}${page}`] });
+      queryClient.invalidateQueries({ queryKey: [`counts`] });
       toast.success(`${entityType} uploaded successfully`);
     },
     onError: (err) => {
@@ -114,3 +126,11 @@ export const useGetInfiniteScrollProduct = () => {
 //     }
 //   }
 // }, [data, page, queryClient]);
+export const useGetCounts = () => {
+  const axios = useAxiosPrivate();
+  const { data, isLoading, error } = useQuery({
+    queryFn: async () => await axios.get("/products/counts"),
+    queryKey: ["counts"],
+  });
+  return { data, isLoading, error };
+};

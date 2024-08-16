@@ -4,8 +4,19 @@ import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessa
 import { Input } from "./ui/input";
 import { useFormContext } from "react-hook-form";
 
-const FormInput = ({ name, label, placeholder, description, id, type, removeOp }: InputProps) => {
+const FormInput = ({
+  name,
+  label,
+  placeholder,
+  description,
+  id,
+  type,
+  removeOp,
+
+  defaultValue,
+}: InputProps) => {
   const { control } = useFormContext();
+  console.log(defaultValue);
   return (
     <FormField
       control={control}
@@ -15,7 +26,16 @@ const FormInput = ({ name, label, placeholder, description, id, type, removeOp }
           <FormLabel className=" ">{label}</FormLabel>
           <FormControl className="">
             <div className="flex items-center w-full">
-              <Input type={type || "text"} className=" " placeholder={placeholder} {...field} />
+              <Input
+                type={type || "text"}
+                className=""
+                placeholder={placeholder}
+                {...field}
+                onChange={(e) => {
+                  const value = type === "number" ? Number(e.target.value) : e.target.value;
+                  field.onChange(value);
+                }}
+              />
               {removeOp && (
                 <button onClick={() => removeOp()} className=" p-1 text-red-400 hover:text-red-500">
                   <Trash2Icon />

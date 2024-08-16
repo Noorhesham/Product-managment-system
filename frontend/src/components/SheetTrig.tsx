@@ -23,7 +23,7 @@ export function SheetDemo({ text, id, entity }: { text: string; id: string; enti
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button className=" underline" variant="outline">
+        <Button className= " w-full my-2 underline" variant="outline">
           {text}
         </Button>
       </SheetTrigger>
@@ -32,7 +32,7 @@ export function SheetDemo({ text, id, entity }: { text: string; id: string; enti
           <SheetTitle>{entity} Details</SheetTitle>
           <SheetDescription>Here are the details of the {entity}</SheetDescription>
         </SheetHeader>
-        {isLoading ? <Spinner /> : docs.items.map((item: any) => <SheetItem item={item.product} key={item._id} />)}
+        {isLoading ? <Spinner /> : docs.items.map((item: any) => <SheetItem type={entity} wholeItem={item} item={item.product} key={item._id} />)}
         {docs?.customer && (
           <p className=" text-sm  text-primary underline mb-2">
             Sold To <Link to={`/customer/${docs?.customer?._id}`}>{docs?.customer?.name}</Link>
