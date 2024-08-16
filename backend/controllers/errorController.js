@@ -52,7 +52,7 @@ module.exports = (err, req, res, next) => {
 
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, res);
-  } else if (process.env.NODE_ENV === "production ") {
+  } else if (process.env.NODE_ENV === "production") {
     //if we are in production mode then we want to send clean and good errors to the client so
     //we start by making custome messages for each error type and we check if this error operational means that it is from the AppError class
     //then we send messages that describe this error if not then we send generic message that hides the details of that error cause it will
