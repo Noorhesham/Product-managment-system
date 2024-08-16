@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_URL = "ttps://product-managment-system.onrender.com/api";
+const BASE_URL = "http://localhost:3000/api";
 
 // https://product-managment-system.onrender.com/api
 export default axios.create({ baseURL: BASE_URL });

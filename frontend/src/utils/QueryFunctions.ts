@@ -86,7 +86,7 @@ export const useUploadEntity = (entityType: string, page: number = 1, id: string
   return { uploadEntity, isPending, error };
 };
 
-export const useGetInfiniteScrollProduct = () => {
+export const useGetInfiniteScrollProduct = ({ entity }: { entity?: typeProps }) => {
   const axios = useAxiosPrivate();
 
   const {
@@ -99,7 +99,9 @@ export const useGetInfiniteScrollProduct = () => {
   } = useInfiniteQuery({
     queryKey: ["products"],
     queryFn: async ({ pageParam = 1 }: { pageParam: number }) => {
-      const { data } = await axios.get(`/products?page=${pageParam}&limit=10`);
+      const { data } = entity
+        ? await axios.get(`/${entity}?page=${pageParam}&limit=10`)
+        : await axios.get(`/products?page=${pageParam}&limit=10`);
       return data;
     },
     getNextPageParam: (lastPage, allPages) => {

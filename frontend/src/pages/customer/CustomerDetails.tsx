@@ -3,14 +3,12 @@ import { DataTable } from "@/components/DataTable";
 import Section from "@/components/Section";
 import Spinner from "@/components/Spinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SellProps } from "@/types";
 import { formatPrice } from "@/utils/helpers";
 import { useGetEntity } from "@/utils/QueryFunctions";
 import { useParams } from "react-router-dom";
 
 import { PageProvider, usePage } from "@/context/PageProvider";
 import { useEffect, useState } from "react";
-import { PiechartCustom } from "@/components/PieChart";
 import { columns } from "../Sell/columns";
 import { columns as columns2 } from "../debts/columns";
 
