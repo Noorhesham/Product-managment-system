@@ -5,11 +5,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 const FormSelect = ({ name, label, placeholder, description, id, options, selected }: InputProps) => {
   const form = useFormContext();
-  const selectedValue = name&&form?.watch(name);
 
   // Filter out the selected value from the options
   const filteredOptions = name === "customer" ? options : options?.filter((p) => !selected?.includes(p._id));
-  
+
   return (
     <FormField
       control={form?.control}
@@ -27,9 +26,7 @@ const FormSelect = ({ name, label, placeholder, description, id, options, select
             >
               <FormControl>
                 <SelectTrigger>
-                  <SelectValue>
-                    {selectedOption ? selectedOption.name : placeholder}
-                  </SelectValue>
+                  <SelectValue>{selectedOption ? selectedOption.name : placeholder}</SelectValue>
                 </SelectTrigger>
               </FormControl>
               <SelectContent>

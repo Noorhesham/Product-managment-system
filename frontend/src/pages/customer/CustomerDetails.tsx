@@ -17,7 +17,7 @@ const CustomerDetails = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetEntity("sells", page, 10, "customer", id);
   const { data: data2, isLoading: isLoading2 } = useGetEntity("debts", page, 10, "customer", id);
-  const [tab, setTab] = useState("sells");
+  const [_tab, setTab] = useState("sells");
 
   useEffect(() => {
     setTotalPages(data2?.data.totalPages);

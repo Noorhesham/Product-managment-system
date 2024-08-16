@@ -22,7 +22,6 @@ import FilterGroup from "./FilterGroup";
 import PopUp from "./PopUp";
 import { useDeleteEntity } from "@/utils/QueryFunctions";
 import { typeProps } from "@/types";
-import FormSelect from "./FormSelect";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];

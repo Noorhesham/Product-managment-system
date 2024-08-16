@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { Input } from "./ui/input";
 
 const ProductSelect = ({ name, label, description, id, selected, defaultValue }: InputProps) => {
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetInfiniteScrollProduct();
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } = useGetInfiniteScrollProduct({entity: "products"});
   const form = useFormContext();
   const selectedValue = form.watch(name);
   const { ref, inView } = useInView();

@@ -32,7 +32,7 @@ const Notifications = () => {
         ) : (
           <div className=" flex   max-w-lg flex-col items-start">
             {notifications?.map((item: any) => (
-              <NotificationItem ref={ref} item={item} key={item._id} />
+              <NotificationItem item={item} key={item._id} />
             ))}
           </div>
         )}

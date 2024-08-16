@@ -1,5 +1,4 @@
 import { useDeleteEntity } from "@/utils/QueryFunctions";
-import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import Spinner from "./Spinner";
@@ -13,7 +12,7 @@ interface NotificationProps {
   createdAt: Date;
   _id: string;
 }
-const NotificationItem = ({ item, ref }: { item: NotificationProps; ref: any }) => {
+const NotificationItem = ({ item,  }: { item: NotificationProps;  }) => {
   const { page } = usePage();
   const { deleteEntity, isPending } = useDeleteEntity("notifications", item._id, page);
   return (

@@ -1,4 +1,4 @@
-export type typeProps = "products" | "groups" | "customers" | "sells"|"purchases"|'debts'|'notifications';
+export type typeProps = "products" | "groups" | "customers" | "sells" | "purchases" | "debts" | "notifications";
 
 export interface ProductProps {
   group: { _id: string; name: string };
@@ -29,21 +29,22 @@ export interface SellProps {
   isInDept: boolean;
   totalSellPrice: number;
   name: string;
-  product:any
+  customerPaidForAllQuantity: number;
+  product: any;
 }
 export interface PurchasesProps {
-items: { product: string; sellPrice: number; quantity: number }[],
-  purchaseDate: Date,
-  totalPurchasePrice: number
-  name: string
-  _id: string
-  quantity: number
-  purchasePrice: number
+  items: { product: string; sellPrice: number; quantity: number }[];
+  purchaseDate: Date;
+  totalPurchasePrice: number;
+  name: string;
+  _id: string;
+  quantity: number;
+  purchasePrice: number;
 }
 export interface DebtsProps {
-  deptPrice: number
-  deptDate: Date
-  customer : CustomerProps
-  _id: string
-  name: string
+  deptPrice: number;
+  deptDate: Date;
+  customer: CustomerProps;
+  _id: string;
+  name: string;
 }
