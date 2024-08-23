@@ -51,6 +51,11 @@ const sellSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Dept",
   },
+  serialNumber: {
+    type: Number,
+    unique: true,
+    default: 1,
+  },
 });
 sellSchema.pre(/^find/, function (next) {
   this.populate({
@@ -64,7 +69,9 @@ sellSchema.pre(/^find/, function (next) {
 
 sellSchema.pre("save", async function (next) {
   if (!this.isNew) return next(); // Execute only on create, not update
-
+  const lastSell = await mongoose.model("Sell").findOne().sort({ serialNumber: -1 });
+  this.serialNumber = lastSell ? lastSell.serialNumber + 1 : 1;
+  
   this.totalSellPrice = this.items.reduce((total, item) => total + item.sellPrice * item.quantity, 0);
   this.customerPaidTotal = this.items.reduce((total, item) => total + item.customerPaidForAllQuantity, 0);
 

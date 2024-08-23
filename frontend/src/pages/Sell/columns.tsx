@@ -30,6 +30,10 @@ export const columns: ColumnDef<SellProps>[] = [
     ),
   },
   {
+    accessorKey: "serialNumber",
+    header: "Serial Number",
+  },
+  {
     accessorKey: "customer.name",
     header: ({ column }) => {
       return (

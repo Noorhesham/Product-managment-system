@@ -32,7 +32,7 @@ const FormInput = ({
                 placeholder={placeholder}
                 {...field}
                 onChange={(e) => {
-                  const value = type === "number" ? Number(e.target.value) : e.target.value;
+                  const value = e.target.value;
                   field.onChange(value);
                 }}
               />

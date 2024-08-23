@@ -114,6 +114,17 @@ const SellForm = ({ sell, btn }: { sell?: SellProps; btn?: JSX.Element }) => {
                                 }
                               />
                             </div>
+                            <div>
+                              <label htmlFor="total">difference</label>
+                              <Input
+                                disabled
+                                value={
+                                  form.getValues(`items.${index}.sellPrice`) *
+                                    form.getValues(`items.${index}.quantity`) -
+                                  form.getValues(`items.${index}.customerPaidForAllQuantity`)
+                                }
+                              />
+                            </div>
 
                             <FormInput
                               type="number"
